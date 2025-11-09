@@ -3,10 +3,7 @@ provider "aws" {
 }
 
 resource "aws_instance" "foo" {
-  ami           = "ami-04b70fa74e45c3917" # Ubuntu 22.04 LTS in us-east-1
+  ami           = "ami-04b70fa74e45c3917"
   instance_type = "t3.micro"
-
-  tags = {
-    Name = "TF-Instance"
-  }
+  tags = { Name = "TF-Instance" }
 }
