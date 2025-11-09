@@ -15,7 +15,6 @@ pipeline {
         stage('Checkout Terraform Repo') {
             steps {
                 script {
-                    // clone repo into workspace/terraform/
                     dir('terraform') {
                         git branch: 'main', url: 'https://github.com/Srinivasraop03/AWS_Terraform.git'
                     }
