@@ -20,7 +20,6 @@ pipeline {
 
         stage('Terraform Init & Plan') {
             steps {
-                // ✅ run Terraform directly from the repo root (where main.tf lives)
                 sh 'terraform init -input=false'
                 sh 'terraform plan -input=false -out=tfplan'
                 sh 'terraform show -no-color tfplan > tfplan.txt'
