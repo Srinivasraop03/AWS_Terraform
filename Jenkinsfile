@@ -14,21 +14,16 @@ pipeline {
     stages {
         stage('Checkout Terraform Repo') {
             steps {
-                script {
-                    dir('terraform') {
-                        git branch: 'main', url: 'https://github.com/Srinivasraop03/AWS_Terraform.git'
-                    }
-                }
+                git branch: 'main', url: 'https://github.com/Srinivasraop03/AWS_Terraform.git'
             }
         }
 
         stage('Terraform Init & Plan') {
             steps {
-                dir('terraform') {
-                    sh 'terraform init -input=false'
-                    sh 'terraform plan -input=false -out=tfplan'
-                    sh 'terraform show -no-color tfplan > tfplan.txt'
-                }
+                // ✅ run Terraform directly from the repo root (where main.tf lives)
+                sh 'terraform init -input=false'
+                sh 'terraform plan -input=false -out=tfplan'
+                sh 'terraform show -no-color tfplan > tfplan.txt'
             }
         }
 
@@ -38,7 +33,7 @@ pipeline {
             }
             steps {
                 script {
-                    def planText = readFile 'terraform/tfplan.txt'
+                    def planText = readFile 'tfplan.txt'
                     input message: "Do you want to apply this Terraform plan?",
                           parameters: [text(name: 'Terraform Plan', defaultValue: planText)]
                 }
@@ -47,9 +42,7 @@ pipeline {
 
         stage('Terraform Apply') {
             steps {
-                dir('terraform') {
-                    sh 'terraform apply -auto-approve tfplan'
-                }
+                sh 'terraform apply -auto-approve tfplan'
             }
         }
     }
@@ -59,4 +52,4 @@ pipeline {
             echo 'Terraform pipeline finished.'
         }
     }
-} 
+}
