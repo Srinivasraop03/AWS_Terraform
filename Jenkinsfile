@@ -60,4 +60,4 @@ pipeline {
             echo 'Terraform pipeline finished.'
         }
     }
-}
+} 
